@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <template>
 	<TheHeader title="Halaman Pengaturan" subtitle="Menampilkan halaman pengaturan" />
 	<div style="height: 48px"></div>

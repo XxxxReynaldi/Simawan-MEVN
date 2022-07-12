@@ -28,7 +28,7 @@ export async function callAuthAPI({ url, method, data, token, serverToken }: Cal
 		headers,
 	}).catch((err) => err.response);
 
-	console.log('response callAPI', response);
+	// console.log('response callAPI', response);
 
 	if (response.status > 300) {
 		const res = {
@@ -68,7 +68,7 @@ export async function callAPI({ url, method, data, token, serverToken }: CallAPI
 
 	const response = await axios({ url, method, data, headers }).catch((err) => err.response);
 
-	console.log('response callAPI', response);
+	// console.log('response callAPI', response);
 
 	if (response.status > 300) {
 		const res = {

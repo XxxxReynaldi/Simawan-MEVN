@@ -123,7 +123,6 @@ export default defineComponent({
 		if (this.payload) {
 			this.getImage();
 		}
-		// console.log('modalProfile', this.payload);
 	},
 	data() {
 		return {
@@ -138,7 +137,6 @@ export default defineComponent({
 			this.defaultPreview = `${IMAGE_API_URL}/user/${this.payload.foto}`;
 		},
 		handleEdit(e: Event) {
-			console.log('e', e);
 			const input = e.target as any;
 			const reader = new FileReader();
 			if (input.files) {
@@ -151,7 +149,6 @@ export default defineComponent({
 			}
 		},
 		handleDelete() {
-			console.log('delete');
 			const body = document.querySelector('div .body') as HTMLElement;
 			this.modalHapus = !this.modalHapus;
 
@@ -159,8 +156,6 @@ export default defineComponent({
 			this.modalHapus ? body.classList.add('modal-open') : body.classList.remove('modal-open');
 		},
 		async handleSubmit() {
-			console.log('e submit', this.theModel);
-
 			const data: FormData = new FormData();
 			data.append('foto', this.formData.foto);
 

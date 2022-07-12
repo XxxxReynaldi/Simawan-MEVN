@@ -24,6 +24,7 @@
 	"devDependencies": {
 		"@jobinsjp/vue3-datatable": "^1.0.15",
 		"@rushstack/eslint-patch": "^1.1.0",
+		"@types/js-cookie": "^3.0.2",
 		"@types/jsdom": "^16.2.14",
 		"@types/node": "^16.11.43",
 		"@types/vue-select": "^3.16.0",

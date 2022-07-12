@@ -111,9 +111,7 @@ export default defineComponent({
 		},
 		async handleSubmit() {
 			this.submitted = true;
-			// console.log('e submit', this.theModel);
 			const response = (await updatePassword(this.model, this.payload._id)) as any;
-			console.log('response', response);
 			if (response.error) {
 				createToast('Data Gagal Ditambahkan', { type: 'danger' });
 				this.setError = response.fields;

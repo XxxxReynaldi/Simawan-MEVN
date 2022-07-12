@@ -104,7 +104,6 @@ export default defineComponent({
 		async handleSubmit() {
 			if (this.suffix === 'Jurusan') {
 				const deleteJurusan = (await destroyJurusan(this.payload._id)) as any;
-				// console.log(`deleteJurusan`, deleteJurusan);
 				if (deleteJurusan.error) {
 					createToast('Data Gagal Dihapus', { type: 'danger' });
 				} else {
@@ -113,7 +112,6 @@ export default defineComponent({
 				}
 			} else if (this.suffix === 'Kelas') {
 				const deleteKelas = (await destroyKelas(this.payload._id)) as any;
-				// console.log('deleteKelas', deleteKelas);
 				if (deleteKelas.error) {
 					createToast('Data Gagal Dihapus', { type: 'danger' });
 				} else {
@@ -122,7 +120,6 @@ export default defineComponent({
 				}
 			} else if (this.suffix === 'Foto User') {
 				const deleteFoto = (await removePhoto(this.payload._id)) as any;
-				// console.log('deleteFoto', deleteFoto);
 				if (deleteFoto.error) {
 					createToast('Data Gagal Dihapus', { type: 'danger' });
 				} else {
@@ -131,7 +128,6 @@ export default defineComponent({
 				}
 			} else if (this.suffix === 'User') {
 				const deleteUser = (await destroyUser(this.payload._id)) as any;
-				// console.log('deleteUser', deleteUser);
 				if (deleteUser.error) {
 					createToast('Data Gagal Dihapus', { type: 'danger' });
 				} else {
@@ -140,7 +136,6 @@ export default defineComponent({
 				}
 			} else if (this.suffix === 'Pelanggaran') {
 				const deletePelanggaran = (await destroyPelanggaran(this.payload._id)) as any;
-				// console.log('deletePelanggaran', deletePelanggaran);
 				if (deletePelanggaran.error) {
 					createToast('Data Gagal Dihapus', { type: 'danger' });
 				} else {

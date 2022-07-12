@@ -267,7 +267,6 @@ export default defineComponent({
 		async handleSubmit() {
 			this.submitted = true;
 
-			console.log('this.formData', this.formData);
 			if (!this.formData.kelas || this.formData.NIS === 0) {
 				return createToast('Data Gagal Disimpan', { type: 'danger' });
 			}

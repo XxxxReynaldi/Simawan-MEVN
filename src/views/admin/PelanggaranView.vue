@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <template>
 	<TheHeader title="Halaman Pelanggaran" subtitle="Menampilkan halaman pelanggaran" />
 	<CardHeader

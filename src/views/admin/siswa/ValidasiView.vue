@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <template>
 	<TheHeader title="Halaman Validasi Siswa" subtitle="Menampilkan data user yang telah mendaftar" />
 	<div style="height: 48px"></div>
@@ -15,7 +16,7 @@
 						<div class="col">
 							<div class="container container-validasi">
 								<!-- <app-table-user></app-table-user> -->
-								<DataTable :rows="listUser" striped sn>
+								<!-- <DataTable :rows="listUser" striped sn>
 									<template #thead-sn>
 										<TableHead>No</TableHead>
 									</template>
@@ -49,7 +50,49 @@
 											</button>
 										</TableBody>
 									</template>
-								</DataTable>
+								</DataTable> -->
+								<table class="custom-table">
+									<thead class="custom-thead custom-thead-row">
+										<th class="custom-thead-col">No</th>
+										<th class="custom-thead-col">NISN</th>
+										<th class="custom-thead-col">Nama Lengkap</th>
+										<th class="custom-thead-col">Email</th>
+										<th class="custom-thead-col">Opsi</th>
+									</thead>
+
+									<tbody v-if="listUser.length != 0" class="custom-tbody">
+										<tr v-for="(item, i) in listUser" :key="item._id" class="custom-tbody-row">
+											<td class="custom-tbody-col1 custom-tbody-col2">
+												<div class="tag">{{ i + 1 }}</div>
+											</td>
+											<td class="custom-tbody-col1 custom-tbody-col2">
+												<div class="tag">{{ item.NISN }}</div>
+											</td>
+											<td class="custom-tbody-col1 custom-tbody-col2">
+												<div class="tag">{{ item.namaLengkap }}</div>
+											</td>
+											<td class="custom-tbody-col1 custom-tbody-col2">
+												<div class="tag">{{ item.email }}</div>
+											</td>
+											<td class="custom-tbody-col1 custom-tbody-col2">
+												<button class="btn btn-success" @click="handleValidation(item)">
+													<i class="fas fa-edit"></i>
+												</button>
+												<div style="width: 8px"></div>
+												<button class="btn btn-danger" @click="handleDelete(item)">
+													<i class="fas fa-trash"></i>
+												</button>
+											</td>
+										</tr>
+									</tbody>
+									<tbody v-if="listUser?.length == 0">
+										<tr>
+											<td colspan="3" class="custom-tbody-col1 custom-tbody-col2">
+												<div class="tag">Data Tidak Ada!</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -101,8 +144,8 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			listKelas: [],
-			listUser: [],
+			listKelas: [] as any,
+			listUser: [] as any,
 			totalUser: 0,
 			prefix: '',
 			suffix: 'User',
@@ -113,16 +156,13 @@ export default defineComponent({
 		async getListKelas() {
 			const response = (await getAllKelas()) as any;
 			this.listKelas = response.data.data;
-			// console.log(`listKelas: `, response.data.data);
 		},
 		async getListUser() {
 			const response = (await getAllValidation({ validasi: 'pending' })) as any;
 			this.listUser = response.data.data;
 			this.totalUser = response.data.total;
-			// console.log(`listJurusan: `, response.data.data);
 		},
 		handleValidation(payload: any) {
-			console.log('valid payload', payload);
 			const body = document.querySelector('div .body') as HTMLElement;
 			this.modalValidasiUser = !this.modalValidasiUser;
 			this.prefix = 'Validasi';
@@ -130,7 +170,6 @@ export default defineComponent({
 			this.modalValidasiUser ? body.classList.add('modal-open') : body.classList.remove('modal-open');
 		},
 		handleDelete(payload: any) {
-			console.log('delete payload', payload);
 			const body = document.querySelector('div .body') as HTMLElement;
 			this.modalHapus = !this.modalHapus;
 			this.prefix = 'Hapus';
@@ -165,5 +204,98 @@ export default defineComponent({
 	box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(217, 217, 217, 0.5),
 		inset -5px 5px 10px rgba(217, 217, 217, 0.2), inset 5px -5px 10px rgba(217, 217, 217, 0.2),
 		inset -5px -5px 10px rgba(255, 255, 255, 0.9), inset 5px 5px 13px rgba(217, 217, 217, 0.9);
+}
+
+.content {
+	position: relative;
+	width: 100%;
+	border-radius: inherit;
+	overflow-x: auto;
+	overflow-y: hidden;
+	min-height: 0;
+}
+
+.inside-content {
+	position: relative;
+	width: 100%;
+	display: table;
+}
+
+.custom-table {
+	position: relative;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	color: rgba(0, 0, 0, 0.87);
+	background-color: #ffffff;
+}
+
+.custom-thead {
+	display: flex;
+	width: 100%;
+	color: rgba(0, 0, 0, 0.87);
+	font-size: 12px;
+	font-weight: 500;
+}
+
+.custom-thead-row {
+	display: flex;
+	-webkit-box-align: stretch;
+	align-items: stretch;
+	width: 100%;
+	background-color: #ffffff;
+	min-height: 52px;
+}
+
+.custom-thead-col {
+	-webkit-box-flex: 1;
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: 0;
+	max-width: 100%;
+	min-width: 100px;
+	padding: 16px;
+}
+
+.custom-tbody {
+	display: flex;
+	flex-direction: column;
+}
+
+.custom-tbody-row {
+	display: flex;
+	-webkit-box-align: stretch;
+	align-items: stretch;
+	align-content: stretch;
+	width: 100%;
+	box-sizing: border-box;
+	font-size: 13px;
+	font-weight: 400;
+	color: rgba(0, 0, 0, 0.87);
+	background-color: #ffffff;
+	min-height: 48px;
+}
+
+.custom-tbody-col1 {
+	-webkit-box-flex: 1;
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: 0;
+	max-width: 100%;
+	min-width: 100px;
+}
+
+.custom-tbody-col2 {
+	position: relative;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	line-height: normal;
+	padding-left: 16px;
+	padding-right: 16px;
+	word-break: break-word;
 }
 </style>

@@ -64,7 +64,7 @@ export default defineComponent({
 		},
 	},
 	updated() {
-		console.log('this.payload', this.payload);
+		// console.log('this.payload', this.payload);
 	},
 });
 </script>

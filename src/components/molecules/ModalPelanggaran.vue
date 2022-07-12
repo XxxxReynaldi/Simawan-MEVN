@@ -157,7 +157,6 @@ export default defineComponent({
 
 			if (this.prefix === 'Tambah') {
 				const storeResponse = (await storePelanggaran(this.formData)) as any;
-				// console.log(`storeRes`, storeResponse);
 				if (storeResponse.error) {
 					createToast('Data Gagal Ditambahkan', { type: 'danger' });
 					this.setError = storeResponse.fields;
@@ -168,7 +167,6 @@ export default defineComponent({
 				}
 			} else if (this.prefix === 'Edit') {
 				const updateResponse = (await updatePelanggaran(this.formData, this.payload._id)) as any;
-				// console.log('updateResponse', updateResponse);
 				if (updateResponse.error) {
 					createToast('Data Gagal Disimpan', { type: 'danger' });
 					this.setError = updateResponse.fields;

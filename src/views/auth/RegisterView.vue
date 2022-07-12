@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <template>
 	<div class="container">
 		<div class="row justify-content-md-center">
@@ -156,7 +157,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { createToast } from 'mosha-vue-toastify';
 
 import 'mosha-vue-toastify/dist/style.css';

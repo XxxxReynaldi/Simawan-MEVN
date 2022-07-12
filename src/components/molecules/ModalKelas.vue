@@ -242,7 +242,7 @@ export default defineComponent({
 	methods: {
 		setSelected(item: any) {
 			this.theModel = { ...this.theModel, item };
-			console.log('this.theModel', this.theModel);
+			// console.log('this.theModel', this.theModel);
 			return item.paketKeahlian;
 		},
 		handleGenerateKode() {
@@ -293,7 +293,6 @@ export default defineComponent({
 			} else {
 				this.formData = { ...this.theModel, status: 'N' };
 			}
-			console.log('e submit', this.formData);
 
 			let kodeTingkatan = '';
 			// eslint-disable-next-line no-prototype-builtins
@@ -306,7 +305,6 @@ export default defineComponent({
 			this.formData = { ...this.formData, keahlian: keahlian._id, tingkatan: kodeTingkatan };
 			if (this.prefix === 'Tambah') {
 				const storeResponse = (await storeKelas(this.formData)) as any;
-				console.log(`storeRes`, storeResponse);
 				if (storeResponse.error) {
 					createToast('Data Gagal Ditambahkan', { type: 'danger' });
 					this.setError = storeResponse.fields;
@@ -317,7 +315,6 @@ export default defineComponent({
 				}
 			} else if (this.prefix === 'Edit') {
 				const updateResponse = (await updateKelas(this.formData, this.payload._id)) as any;
-				// console.log('updateResponse', updateResponse);
 				if (updateResponse.error) {
 					createToast('Data Gagal Disimpan', { type: 'danger' });
 					this.setError = updateResponse.fields;

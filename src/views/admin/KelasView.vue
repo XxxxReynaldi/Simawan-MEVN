@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <template>
 	<TheHeader title="Halaman Kelas" subtitle="Menampilkan halaman kelas" />
 	<CardHeader
@@ -82,8 +83,8 @@ export default defineComponent({
 				kode: '',
 				status: 'Y',
 			} as any,
-			listJurusan: [],
-			listKelas: [],
+			listJurusan: [] as any,
+			listKelas: [] as any,
 			totalKelas: 0,
 		};
 	},
@@ -92,13 +93,11 @@ export default defineComponent({
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const response = (await getAllJurusan()) as any;
 			this.listJurusan = response.data.data;
-			// console.log(`listJurusan: `, response.data.data);
 		},
 		async getListKelas() {
 			const response = (await getAllKelas()) as any;
 			this.listKelas = response.data.data;
 			this.totalKelas = response.data.total;
-			// console.log(`listKelas: `, response.data.data);
 		},
 		handleAdd() {
 			const body = document.querySelector('div .body') as HTMLElement;
@@ -107,7 +106,6 @@ export default defineComponent({
 			this.modalKelas ? body.classList.add('modal-open') : body.classList.remove('modal-open');
 		},
 		handleEdit(e: Event) {
-			console.log('edit', e);
 			const body = document.querySelector('div .body') as HTMLElement;
 			this.modalKelas = !this.modalKelas;
 			this.prefix = 'Edit';
@@ -115,7 +113,6 @@ export default defineComponent({
 			this.modalKelas ? body.classList.add('modal-open') : body.classList.remove('modal-open');
 		},
 		handleDelete(e: Event) {
-			console.log('delete', e);
 			const body = document.querySelector('div .body') as HTMLElement;
 			this.modalHapus = !this.modalHapus;
 			this.prefix = 'Hapus';

@@ -76,10 +76,9 @@ export default defineComponent({
 	methods: {
 		async handleSubmit() {
 			this.submitted = true;
-			// console.log('e submit', this.theModel);
 			this.formData = { ...this.theModel };
 			const response = (await updateProfile(this.formData, this.payload._id)) as any;
-			console.log('response', response);
+
 			if (response.error) {
 				createToast('Data Gagal Ditambahkan', { type: 'danger' });
 				this.setError = response.fields;

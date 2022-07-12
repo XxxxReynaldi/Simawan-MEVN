@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <template>
 	<TheHeader title="Halaman Jurusan" subtitle="Menampilkan halaman jurusan" />
 	<CardHeader
@@ -76,7 +77,7 @@ export default defineComponent({
 			prefix: '',
 			suffix: 'Jurusan',
 			payload: {},
-			listJurusan: [],
+			listJurusan: [] as any,
 			totalJurusan: 0,
 		};
 	},
@@ -85,7 +86,6 @@ export default defineComponent({
 			const response = (await getAllJurusan()) as any;
 			this.listJurusan = response.data.data;
 			this.totalJurusan = response.data.total;
-			// console.log(`listJurusan: `, response.data.data);
 		},
 		handleAdd() {
 			const body = document.querySelector('div .body') as HTMLElement;
@@ -94,7 +94,6 @@ export default defineComponent({
 			this.modalJurusan ? body.classList.add('modal-open') : body.classList.remove('modal-open');
 		},
 		handleEdit(e: Event) {
-			console.log('edit', e);
 			const body = document.querySelector('div .body') as HTMLElement;
 			this.modalJurusan = !this.modalJurusan;
 			this.prefix = 'Edit';
@@ -102,7 +101,6 @@ export default defineComponent({
 			this.modalJurusan ? body.classList.add('modal-open') : body.classList.remove('modal-open');
 		},
 		handleDelete(e: Event) {
-			console.log('delete', e);
 			const body = document.querySelector('div .body') as HTMLElement;
 			this.modalHapus = !this.modalHapus;
 			this.prefix = 'Hapus';

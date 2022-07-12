@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <template>
 	<div class="container">
 		<div class="row">
@@ -38,9 +39,9 @@
 										{{ setError['password']?.message }}
 									</div>
 								</div>
-								<p class="rp-text-info" style="text-align: right">
+								<!-- <p class="rp-text-info" style="text-align: right">
 									<a href="#">lupa password?</a>
-								</p>
+								</p> -->
 								<div style="height: 30px"></div>
 								<button type="submit" class="btn btn-primary">Submit</button>
 								<div style="height: 20px"></div>
@@ -57,7 +58,7 @@
 	</div>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent } from 'vue';
 import Cookies from 'js-cookie';
 
 import { createToast } from 'mosha-vue-toastify';
@@ -82,11 +83,9 @@ export default defineComponent({
 			this.submitted = true;
 			const response = (await setSignIn(this.formData)) as any;
 			if (response.error) {
-				// console.log(response);
 				createToast(response.message, { type: 'danger' });
 				this.setError = response.fields;
 			} else {
-				// console.log('Login Berhasil', response);
 				createToast('Login Berhasil', { type: 'success' });
 				const { token } = response.data;
 				const tokenBase64 = btoa(token);

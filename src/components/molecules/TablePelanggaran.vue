@@ -1,5 +1,5 @@
 <template>
-	<DataTable :rows="payload" striped sn>
+	<!-- <DataTable :rows="payload" striped sn>
 		<template #thead-sn>
 			<TableHeadCell>No</TableHeadCell>
 		</template>
@@ -28,22 +28,53 @@
 				</button>
 			</TableBodyCell>
 		</template>
-	</DataTable>
+	</DataTable> -->
+	<table class="custom-table">
+		<thead class="custom-thead custom-thead-row">
+			<th class="custom-thead-col">No</th>
+			<th class="custom-thead-col">Jenis Pelanggaran</th>
+			<th class="custom-thead-col">Poin</th>
+			<th class="custom-thead-col">Opsi</th>
+		</thead>
+		<tbody class="custom-tbody" v-if="payload.length != 0">
+			<tr class="custom-tbody-row" v-for="(item, i) of payload" :key="item._id">
+				<td class="custom-tbody-col1 custom-tbody-col2">
+					<div class="tag">{{ i + 1 }}</div>
+				</td>
+				<td class="custom-tbody-col1 custom-tbody-col2">
+					<div class="tag">{{ item.jenisPelanggaran }}</div>
+				</td>
+				<td class="custom-tbody-col1 custom-tbody-col2">
+					<div class="tag">{{ item.jumlahPoin }}</div>
+				</td>
+				<td class="custom-tbody-col1 custom-tbody-col2">
+					<button class="btn btn-success" @click="editClicked(item)">
+						<i class="fas fa-edit"></i>
+					</button>
+					<div style="width: 8px"></div>
+					<button class="btn btn-danger" @click="removeClicked(item)">
+						<i class="fas fa-trash"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+		<tbody v-if="payload?.length == 0">
+			<tr>
+				<td colspan="3" class="custom-tbody-col1 custom-tbody-col2">
+					<div class="tag">Data Tidak Ada!</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import {
-	DataTable,
-	TableBody,
-	TableHead,
-	TableHeadCell,
-	TableBodyCell,
-} from '@jobinsjp/vue3-datatable';
+import { defineComponent } from 'vue';
+import { DataTable, TableHeadCell, TableBodyCell } from '@jobinsjp/vue3-datatable';
 import '@jobinsjp/vue3-datatable/dist/style.css';
 
 export default defineComponent({
-	components: { DataTable, TableBody, TableHead, TableHeadCell, TableBodyCell },
+	components: { DataTable, TableHeadCell, TableBodyCell },
 	props: {
 		payload: {
 			type: Object,
