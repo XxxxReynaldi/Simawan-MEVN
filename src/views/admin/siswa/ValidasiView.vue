@@ -124,7 +124,7 @@ import { defineComponent, ref } from 'vue';
 import TheHeader from '@/components/atoms/TheHeader.vue';
 import ModalValidasi from '@/components/molecules/ModalValidasi.vue';
 import ModalHapus from '@/components/molecules/ModalHapus.vue';
-import { DataTable, TableBody, TableHead } from '@jobinsjp/vue3-datatable';
+// import { DataTable, TableBody, TableHead } from '@jobinsjp/vue3-datatable';
 
 import '@jobinsjp/vue3-datatable/dist/style.css';
 
@@ -132,7 +132,7 @@ import { getAllValidation } from '@/services/validasiUser';
 import { getAllKelas } from '@/services/kelas';
 
 export default defineComponent({
-	components: { TheHeader, DataTable, TableBody, TableHead, ModalValidasi, ModalHapus },
+	components: { TheHeader, ModalValidasi, ModalHapus },
 	setup() {
 		const modalValidasiUser = ref(false);
 		const modalHapus = ref(false);

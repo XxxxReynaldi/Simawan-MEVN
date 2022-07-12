@@ -70,11 +70,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { DataTable, TableHeadCell, TableBodyCell } from '@jobinsjp/vue3-datatable';
+// import { DataTable, TableHeadCell, TableBodyCell } from '@jobinsjp/vue3-datatable';
 import '@jobinsjp/vue3-datatable/dist/style.css';
 
 export default defineComponent({
-	components: { DataTable, TableHeadCell, TableBodyCell },
+	// components: { DataTable, TableHeadCell, TableBodyCell },
 	props: {
 		payload: {
 			type: Object,
