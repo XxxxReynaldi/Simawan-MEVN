@@ -15,42 +15,6 @@
 					<div class="row">
 						<div class="col">
 							<div class="container container-validasi">
-								<!-- <app-table-user></app-table-user> -->
-								<!-- <DataTable :rows="listUser" striped sn>
-									<template #thead-sn>
-										<TableHead>No</TableHead>
-									</template>
-
-									<template #thead>
-										<TableHead>Nama</TableHead>
-										<TableHead>NISN</TableHead>
-										<TableHead>Email</TableHead>
-										<TableHead>Telp</TableHead>
-										<TableHead />
-										<TableHead />
-									</template>
-
-									<template #tbody-sn="{ sn }">
-										<TableHead>{{ sn.toString().padStart(2, '0') }}</TableHead>
-									</template>
-
-									<template #tbody="{ row }">
-										<TableBody>{{ row.namaLengkap }}</TableBody>
-										<TableBody>{{ row.NISN }}</TableBody>
-										<TableBody>{{ row.email }}</TableBody>
-										<TableBody>{{ row.telp }}</TableBody>
-										<TableBody>
-											<button class="btn btn-success" @click="handleValidation(row)">
-												<i class="fas fa-edit"></i>
-											</button>
-										</TableBody>
-										<TableBody>
-											<button class="btn btn-danger" @click="handleDelete(row)">
-												<i class="fas fa-trash"></i>
-											</button>
-										</TableBody>
-									</template>
-								</DataTable> -->
 								<table class="custom-table">
 									<thead class="custom-thead custom-thead-row">
 										<th class="custom-thead-col">No</th>
