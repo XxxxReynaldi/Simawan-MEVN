@@ -8,6 +8,49 @@
 		@add-click="handleAdd()"
 	/>
 	<div style="height: 48px"></div>
+	<h5>Cari kelas menggunakan filter berikut :</h5>
+	<div style="height: 12px"></div>
+	<form novalidate @submit.prevent="filterKelas">
+		<div class="row" :style="{ 'margin-right': '0px' }">
+			<div class="col-md-4">
+				<input
+					placeholder="Masukkan Tahun Ajaran"
+					type="number"
+					name="tahunAjaran"
+					class="form-control input"
+					v-model="theModel.tahunAjaran"
+					required
+					:class="{
+						'is-invalid': submitted && setError['tahunAjaran'],
+					}"
+				/>
+				<div class="invalid-feedback" v-if="submitted && !!setError['tahunAjaran']">
+					{{ setError['tahunAjaran']?.message }}
+				</div>
+			</div>
+			<div class="col-md-4">
+				<vSelect
+					placeholder="Pilih tingkatan"
+					name="tingkatan"
+					v-model="theModel.tingkatan"
+					:options="tingkatan"
+					:reduce="(item:any) => item.value"
+					label="label"
+					required
+					:class="{
+						'is-invalid': submitted && setError['tingkatan'],
+					}"
+				/>
+				<div class="invalid-feedback" v-if="submitted && !!setError['tingkatan']">
+					{{ setError['tingkatan']?.message }}
+				</div>
+			</div>
+			<div class="col-md-2">
+				<button class="btn button-text btn-primary" type="submit">Cari</button>
+			</div>
+		</div>
+	</form>
+	<div style="height: 24px"></div>
 	<div class="container" :style="{ 'padding-left': '0px', 'padding-right': '32px' }">
 		<div class="row">
 			<div
@@ -45,24 +88,41 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 
 import TheHeader from '@/components/atoms/TheHeader.vue';
 import CardHeader from '@/components/molecules/CardHeader.vue';
 import CardKelas from '@/components/atoms/CardKelas.vue';
 import ModalKelas from '@/components/molecules/ModalKelas.vue';
 import ModalHapus from '@/components/molecules/ModalHapus.vue';
+import vSelect from 'vue-select';
+
+import { createToast } from 'mosha-vue-toastify';
+import 'mosha-vue-toastify/dist/style.css';
 
 import { getAllJurusan } from '@/services/jurusan';
-import { getAllKelas } from '@/services/kelas';
+import { getAllKelas, getKelasByFilter } from '@/services/kelas';
 
 export default defineComponent({
-	components: { TheHeader, CardHeader, CardKelas, ModalKelas, ModalHapus },
-	setup() {
+	components: { TheHeader, CardHeader, CardKelas, ModalKelas, ModalHapus, vSelect },
+	props: {
+		modelValue: {
+			type: Object,
+			default: () => ({}),
+		},
+	},
+	emits: ['update:modelValue'],
+	setup(props, { emit }) {
 		const modalKelas = ref(false);
 		const modalHapus = ref(false);
 
-		return { modalKelas, modalHapus };
+		const theModel = computed({
+			// Use computed to wrap the object
+			get: () => props.modelValue,
+			set: (value: any) => emit('update:modelValue', value),
+		});
+
+		return { modalKelas, theModel, modalHapus };
 	},
 	mounted() {
 		// console.log(import.meta.env.VITE_APP_IMAGE_API);
@@ -73,6 +133,11 @@ export default defineComponent({
 		return {
 			prefix: '',
 			suffix: 'Kelas',
+			tingkatan: [
+				{ value: 'X', label: 'X', kode: '10' },
+				{ value: 'XI', label: 'XI', kode: '11' },
+				{ value: 'XII', label: 'XII', kode: '12' },
+			],
 			payload: {
 				_id: '',
 				tingkatan: '',
@@ -83,6 +148,8 @@ export default defineComponent({
 				kode: '',
 				status: 'Y',
 			} as any,
+			submitted: false,
+			setError: {} as any,
 			listJurusan: [] as any,
 			listKelas: [] as any,
 			totalKelas: 0,
@@ -98,6 +165,41 @@ export default defineComponent({
 			const response = (await getAllKelas()) as any;
 			this.listKelas = response.data.data;
 			this.totalKelas = response.data.total;
+		},
+		async filterKelas() {
+			this.submitted = true;
+			const tahunAjaran = this.theModel.tahunAjaran;
+			const tingkatan = this.theModel.tingkatan;
+
+			if (tahunAjaran == undefined || tingkatan == null) {
+				createToast('Semua data wajib diisi!', { type: 'danger' });
+				this.setError = { tingkatan: { message: 'Tingkatan harus diisi' } };
+				this.setError = { tahunAjaran: { message: 'Tahun ajaran harus diisi' } };
+				return;
+			}
+
+			// Set Kode Tingkatan
+			let valueTingkatan = '';
+			// eslint-disable-next-line no-prototype-builtins
+			if (tingkatan.hasOwnProperty('value')) {
+				valueTingkatan = tingkatan.value;
+			}
+			const findTingkatan = this.tingkatan.find((option: any) => option.value == tingkatan);
+			// eslint-disable-next-line no-prototype-builtins
+			if (findTingkatan?.hasOwnProperty('value')) {
+				valueTingkatan = findTingkatan.value;
+			}
+
+			const response = (await getKelasByFilter(tahunAjaran, valueTingkatan)) as any;
+
+			const dataKelas = response.data.data;
+			const { total } = response.data;
+			this.listKelas = dataKelas;
+			if (response.error || total === 0) {
+				createToast('Data tidak ditemukan!', { type: 'danger' });
+			} else {
+				createToast(`${total} Data berhasil ditemukan!`, { type: 'success' });
+			}
 		},
 		handleAdd() {
 			const body = document.querySelector('div .body') as HTMLElement;
